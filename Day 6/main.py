@@ -23,8 +23,9 @@ with open('input.txt') as f:
                 crates_dict[j+1].append(crates_matrix[i][j][1])
 
 for i in range(len(instructions)):
-    for j in range(instructions[i][0]):
-        crates_dict[int(instructions[i][2])].append(crates_dict[int(instructions[i][1])].pop())
+    num_to_move, from_stack, to_stack = instructions[i]
+    crates_dict[to_stack].extend(crates_dict[from_stack][-(num_to_move):])
+    crates_dict[from_stack] = crates_dict[from_stack][0:-num_to_move]
 
 for i in range(1, len(crates_matrix)+2):
     print(crates_dict[i])
