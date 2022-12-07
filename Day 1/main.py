@@ -1,5 +1,6 @@
-max_cals = 0
 curr_cals = 0
+cals_array = []
+
 with open('input.txt') as f:
     lines = f.readlines()
 
@@ -7,8 +8,8 @@ with open('input.txt') as f:
         if line != '\n':
             curr_cals += int(line)
         else:
-            if curr_cals > max_cals:
-                max_cals = curr_cals
+            cals_array.append(curr_cals)
             curr_cals = 0
 
-print(max_cals)
+cals_array.sort(reverse=True)
+print(cals_array[0]+cals_array[1]+cals_array[2])
