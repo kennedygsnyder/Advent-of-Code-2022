@@ -25,7 +25,8 @@ with open("input.txt") as f:
     x_width = max_x-min_x+1
     y_height = max_y-min_y+1
 
-    map = [ ['.']*x_width for i in range(max_y+1)]
+    map = [ ['.']*(x_width+1000) for i in range(max_y+2)]
+    map.append(['#']*(x_width+1000))
 
     # process rock
     for line in lines:
@@ -33,7 +34,7 @@ with open("input.txt") as f:
         instrs = line.replace('\n','').split(' -> ')
         for i in instrs:
             i = i.split(',')
-            instructions.append([int(i[0])-min_x, int(i[1])])
+            instructions.append([int(i[0])-min_x+500, int(i[1])])
         
         for i in range(len(instructions)-1):
             curr_x = instructions[i][0]
@@ -61,15 +62,15 @@ with open("input.txt") as f:
         print('\n', end="")
 
     # Process Sand
-    curr_sand_x = 500-min_x
+    curr_sand_x = 500-min_x+500
     curr_sand_y = 0
-    offscreen = False
+    end = False
     num_sand_grains = 0
 
-    while (not offscreen):
-        if (curr_sand_y + 1 >= len(map)):
-            offscreen = True
-
+    while (not end):
+        if map[0][500-min_x+500] == 'o':
+            end = True
+        
         elif (map[curr_sand_y+1][curr_sand_x] not in ['#','o']):
             curr_sand_y += 1
         
@@ -77,19 +78,13 @@ with open("input.txt") as f:
             curr_sand_y += 1
             curr_sand_x -= 1
         
-        elif (curr_sand_x -1 < 0):
-            offscreen = True
-        
         elif ((curr_sand_y + 1 < len(map)) and(curr_sand_x + 1 < len(map[0])) and map[curr_sand_y+1][curr_sand_x+1] not in ['#','o']):
             curr_sand_y += 1
             curr_sand_x += 1
-
-        elif (curr_sand_x -1 < 0):
-            offscreen = True
         
         else:
             map[curr_sand_y][curr_sand_x] = 'o'
-            curr_sand_x = 500-min_x
+            curr_sand_x = 500-min_x+500
             curr_sand_y = 0   
             num_sand_grains += 1 
 
